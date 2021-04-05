@@ -1,7 +1,8 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe} from '@nestjs/common';
 import {SampleService} from "./sample.service";
-import {SampleModel} from "./sample.model";
+import {ModelStatus, SampleModel} from "./sample.model";
 import {CreateSampleDto} from "./dto/createSample-dto";
+import {StatusValidationPipe} from "./pipes/status-validation";
 
 @Controller('sample')
 export class SampleController {
@@ -36,7 +37,7 @@ export class SampleController {
     }
 
     @Patch(':id')
-    updateSample(@Body('name') name:string, @Param ('id') id:number){
-        return this.sampleService.updateSample(id, name);
+    updateSample(@Body('status', StatusValidationPipe) status: ModelStatus, @Param ('id') id:number){
+        return this.sampleService.updateSample(id, status);
     }
 }

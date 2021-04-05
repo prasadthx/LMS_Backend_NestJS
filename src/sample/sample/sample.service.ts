@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {SampleModel} from "./sample.model";
-import { v4 as uuidv4 } from 'uuid';
+import {ModelStatus, SampleModel} from "./sample.model";
+import {v4 as uuidv4} from 'uuid';
 import {CreateSampleDto} from "./dto/createSample-dto";
 
 @Injectable()
@@ -30,7 +30,8 @@ export class SampleService {
         const { name } = createSampleDto
         const sample: SampleModel = {
             id:uuidv4(),
-            name
+            name,
+            status: ModelStatus.UNVERIFIED
         }
         this.samples.push(sample);
         return sample;
@@ -42,9 +43,9 @@ export class SampleService {
         return this.samples
     }
 
-    updateSample(id:number, name:string){
+    updateSample(id:number, status:ModelStatus){
         const sample = this.getSampleById(id);
-        sample.name = name;
-        return name;
+        sample.status = status;
+        return status;
     }
 }
