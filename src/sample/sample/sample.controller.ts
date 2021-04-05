@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe} from '@nestjs/common';
 import {SampleService} from "./sample.service";
 import {SampleModel} from "./sample.model";
 import {CreateSampleDto} from "./dto/createSample-dto";
@@ -20,6 +20,7 @@ export class SampleController {
     }
 
     @Post()
+    @UsePipes(ValidationPipe)
     createSample(@Body() createSampleDto: CreateSampleDto){
         return this.sampleService.createSample(createSampleDto);
     }
@@ -35,7 +36,7 @@ export class SampleController {
     }
 
     @Patch(':id')
-    updateSample(@Body('name') name:string, @Param('id') id:number){
+    updateSample(@Body('name') name:string, @Param ('id') id:number){
         return this.sampleService.updateSample(id, name);
     }
 }

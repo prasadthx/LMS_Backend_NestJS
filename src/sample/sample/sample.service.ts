@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {SampleModel} from "./sample.model";
 import { v4 as uuidv4 } from 'uuid';
 import {CreateSampleDto} from "./dto/createSample-dto";
@@ -18,7 +18,12 @@ export class SampleService {
     }
 
     getSampleById(id:number) : SampleModel{
-        return this.samples.find((sample) => sample.id === id);
+        const found = this.samples.find((sample) => sample.id === id);
+        if(!found){
+           throw new NotFoundException(`Sample with id ${id} not found`);
+        }
+        else
+            return found;
     }
 
     createSample(createSampleDto : CreateSampleDto){
@@ -32,6 +37,7 @@ export class SampleService {
     }
 
     deleteSample(id: number) {
+        const found = this.getSampleById(id);
         this.samples = this.samples.filter((sample)=> sample.id !== id)
         return this.samples
     }
