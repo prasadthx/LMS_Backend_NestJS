@@ -6,7 +6,7 @@ import {
     Param,
     ParseIntPipe,
     Patch,
-    Post, Query,
+    Post, Query, UseGuards,
     UsePipes,
     ValidationPipe
 } from '@nestjs/common';
@@ -16,8 +16,10 @@ import {CreateSampleDto} from "./dto/createSample-dto";
 import {StatusValidationPipe} from "./pipes/status-validation";
 import {SampleEntity} from "./sample.entity";
 import {GetSampleFilterDto} from "./dto/getSampleFilter-dto";
+import {AuthGuard} from "@nestjs/passport";
 
 @Controller('sample')
+@UseGuards(AuthGuard())
 export class SampleController {
     constructor(private sampleService: SampleService) {
     }

@@ -45,12 +45,12 @@ export class UserRepository extends Repository<User>{
                                 return username;
                             }
                             else
-                                return "Password doesn't match";
+                                return null;
                             }
                         )
                     }
                     else
-                        return "Username not found";
+                        return null;
                 }
                 )
     }
