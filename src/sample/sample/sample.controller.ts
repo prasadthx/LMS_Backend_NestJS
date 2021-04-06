@@ -23,8 +23,8 @@ export class SampleController {
     }
 
     @Get()
-    getSample(@Query() getSampleFilterDto : GetSampleFilterDto){
-        return this.sampleService.getAllSamples();
+    getSample(@Query(ValidationPipe) getSampleFilterDto : GetSampleFilterDto){
+        return this.sampleService.getSamples(getSampleFilterDto);
     }
 
     @Post()

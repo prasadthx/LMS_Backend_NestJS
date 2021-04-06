@@ -4,6 +4,7 @@ import {CreateSampleDto} from "./dto/createSample-dto";
 import {SampleRepository} from "./sample.repository";
 import {InjectRepository} from "@nestjs/typeorm";
 import {SampleEntity} from "./sample.entity";
+import {GetSampleFilterDto} from "./dto/getSampleFilter-dto";
 
 @Injectable()
 export class SampleService {
@@ -12,8 +13,12 @@ export class SampleService {
         private sampleRepository: SampleRepository) {
     }
 
-    getAllSamples() {
-        return "Scam";
+    getSamples(getSampleFilterDto : GetSampleFilterDto) : Promise<SampleEntity[]> {
+        return this.sampleRepository.getSamples(getSampleFilterDto).then(
+            (samples) => {
+                return samples;
+            }
+        )
     }
 
     getSampleById(id:number): Promise<SampleEntity>{
