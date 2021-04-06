@@ -1,51 +1,62 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {ModelStatus, SampleModel} from "./sample.model";
-import {v4 as uuidv4} from 'uuid';
 import {CreateSampleDto} from "./dto/createSample-dto";
+import {SampleRepository} from "./sample.repository";
+import {InjectRepository} from "@nestjs/typeorm";
+import {SampleEntity} from "./sample.entity";
 
 @Injectable()
 export class SampleService {
-
-    id = 1;
-
-    samples : SampleModel[] = []
-    getHello() {
-        return "Hello Prasad";
+    constructor(
+        @InjectRepository(SampleRepository)
+        private sampleRepository: SampleRepository) {
     }
 
-    getAllSamples() : SampleModel[] {
-        return this.samples;
+    getAllSamples() {
+        return "Scam";
     }
 
-    getSampleById(id:number) : SampleModel{
-        const found = this.samples.find((sample) => sample.id === id);
-        if(!found){
-           throw new NotFoundException(`Sample with id ${id} not found`);
-        }
-        else
-            return found;
+    getSampleById(id:number): Promise<SampleEntity>{
+        return this.sampleRepository.findOne(id).then(
+            ((found) => {
+                if(!found){
+                    throw new BadRequestException(`The sample with ${id} does not exist`);
+                }
+                else {
+                    return found;
+                }
+            })
+        )
     }
 
-    createSample(createSampleDto : CreateSampleDto){
-        const { name } = createSampleDto
-        const sample: SampleModel = {
-            id:uuidv4(),
-            name,
-            status: ModelStatus.UNVERIFIED
-        }
-        this.samples.push(sample);
-        return sample;
+    createSample(createSampleDto : CreateSampleDto) : Promise<SampleEntity>{
+        return this.sampleRepository.createSample(createSampleDto);
     }
 
     deleteSample(id: number) {
-        const found = this.getSampleById(id);
-        this.samples = this.samples.filter((sample)=> sample.id !== id)
-        return this.samples
+        return this.sampleRepository.delete(id).then(
+            (result) => {
+                if(!result.affected){
+                    throw new NotFoundException(`Sample with ${id} not found`)
+                }
+                else
+                    return "Deleted Successfully";
+            }
+        )
     }
 
-    updateSample(id:number, status:ModelStatus){
-        const sample = this.getSampleById(id);
-        sample.status = status;
-        return status;
+    updateSample(id:number, status: ModelStatus) : Promise<SampleEntity>{
+       return this.getSampleById(id).then(
+           (sample) => {
+               sample.status = status;
+               return sample.save().then(
+                   (sample) => {
+                       return sample;
+                   }
+               )
+
+           }
+       )
     }
+
 }
