@@ -14,4 +14,12 @@ export class AuthService {
     signUp(authCredentialsDto:AuthCredentialsDto) : Promise<void>{
         return this.userRepository.signUp(authCredentialsDto)
     }
+
+    signIn(authCredentialsDto:AuthCredentialsDto){
+        this.userRepository.validateUserPassword(authCredentialsDto).then(
+            (string) => {
+                console.log(string);
+            }
+        )
+    }
 }
