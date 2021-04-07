@@ -1,5 +1,6 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
+import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from "typeorm";
 import * as Bcrypt from 'bcrypt';
+import {SampleEntity} from "../sample/sample/sample.entity";
 @Entity()
 @Unique(['username'])
 export class User extends BaseEntity{
@@ -15,6 +16,9 @@ export class User extends BaseEntity{
 
     @Column()
     salt:string;
+
+    @OneToMany(type => SampleEntity, task => task.user, {eager:true})
+    samples: SampleEntity[];
 
     validatePassword(password:string): Promise<boolean>{
         return Bcrypt.hash(password, this.salt).then(

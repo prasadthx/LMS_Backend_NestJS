@@ -1,5 +1,6 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ModelStatus} from "./sample.model";
+import {User} from "../../auth/user.entity";
 
 @Entity()
 export class SampleEntity extends BaseEntity{
@@ -11,4 +12,10 @@ export class SampleEntity extends BaseEntity{
 
     @Column()
     status: ModelStatus;
+
+    @ManyToOne(type => User, user => user.samples, {eager:false})
+    user: User;
+
+    @Column()
+    userId : number;
 }
