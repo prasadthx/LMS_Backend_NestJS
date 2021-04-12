@@ -20,5 +20,14 @@ export class Student extends BaseEntity{
     LastName : string;
 
     @Column()
+    Email : string;
+
+    @Column()
+    password:string;
+
+    @Column()
+    salt:string;
+
+    @Column()
     dateOfBirth : string;
 }

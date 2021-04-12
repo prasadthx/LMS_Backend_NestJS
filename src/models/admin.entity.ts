@@ -13,4 +13,13 @@ export class Admin extends BaseEntity{
 
     @Column()
     LastName : string;
+
+    @Column()
+    Email : string;
+
+    @Column()
+    password:string;
+
+    @Column()
+    salt:string;
 }

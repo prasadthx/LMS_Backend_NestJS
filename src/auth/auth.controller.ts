@@ -4,6 +4,7 @@ import {AuthCredentialsDto} from "./dto/auth.credentials.dto";
 import {AuthGuard} from "@nestjs/passport";
 import {GetUser} from "./get.user.decorator";
 import {User} from "./user.entity";
+import {AuthCredentialsDto as ACD} from '../models/authCredentialsDto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,5 +25,10 @@ export class AuthController {
     @UseGuards(AuthGuard())
     test(@GetUser() user: User){
         console.log(user);
+    }
+
+    @Post('/superuser/signup')
+    superuserSign(@Body(ValidationPipe) authCredentialsDto:ACD){
+        return this.authService.superuserSign(authCredentialsDto);
     }
 }
