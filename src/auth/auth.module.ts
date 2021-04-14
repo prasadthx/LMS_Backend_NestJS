@@ -14,6 +14,7 @@ import {StudentRepository} from "../repositories/student.repository";
 import {SubjectRepository} from "../repositories/subject.repository";
 import {SuperuserRefreshTokenRepository} from "../repositories/superuser.refreshtoken.repository";
 import {TokenService} from "./token.service";
+import {JWTGuard} from "./jwt.guard";
 
 
 @Module({
@@ -33,7 +34,8 @@ import {TokenService} from "./token.service";
   providers: [
       AuthService,
       TokenService,
-      JwtStrategy
+      JwtStrategy,
+      JWTGuard
   ],
     exports:[
         JwtStrategy,

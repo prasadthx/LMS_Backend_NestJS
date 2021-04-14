@@ -7,6 +7,7 @@ import {JwtPayload} from "./jwt.payload.interface";
 import {AuthCredentialsDto} from '../models/authCredentialsDto';
 import {SuperUserRepository} from "../repositories/superuser.repository";
 import {SuperuserRefreshTokenRepository} from "../repositories/superuser.refreshtoken.repository";
+import {SuperUser} from "../models/authRoles/superuser.entity";
 
 @Injectable()
 export class AuthService {
@@ -38,11 +39,19 @@ export class AuthService {
     //     )
     // }
 
-    superUserSign(authCredentialsDto: AuthCredentialsDto) {
-        return this.superUserRepository.signUp(authCredentialsDto);
+    superUserSign(authCredentialsDto: AuthCredentialsDto) : Promise<SuperUser>{
+        return this.superUserRepository.signUp(authCredentialsDto).then(
+            (superUser:SuperUser) => {
+                return superUser;
+            }
+        );
     }
 
-    superUserLogin(authCredentialsDto: AuthCredentialsDto) {
-        return this.superUserRepository.validateUserPassword(authCredentialsDto);
+    superUserLogin(authCredentialsDto: AuthCredentialsDto) : Promise<SuperUser>{
+        return this.superUserRepository.validateUserPassword(authCredentialsDto).then(
+            (superUser : SuperUser) => {
+                return superUser
+            }
+    );
     }
 }

@@ -1,4 +1,4 @@
-import {BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {SuperUser} from "./superuser.entity";
 
 @Entity()
@@ -6,7 +6,8 @@ export class SuperUserRefreshToken extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToOne( () => SuperUser)
+    @ManyToOne( () => SuperUser)
+    @JoinColumn()
     superuser: SuperUser
 
     @Column()

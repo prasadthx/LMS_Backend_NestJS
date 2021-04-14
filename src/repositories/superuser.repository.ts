@@ -20,12 +20,12 @@ export class SuperUserRepository extends Repository<SuperUser>{
                     return Bcrypt.genSalt().then(
                         (salt) => {
                             user.salt = salt;
-                            this.hashPassword(password, salt).then(
+                            return this.hashPassword(password, salt).then(
                                 (hashedPassword) => {
                                     user.password = hashedPassword;
-                                    user.save().then(
+                                    return user.save().then(
                                         (user) => {
-                                            return user;
+                                           return user;
                                         }).catch((error) => {
                                         if (error.code === '23505') {
                                             throw new ConflictException("Username already exists");
@@ -42,7 +42,7 @@ export class SuperUserRepository extends Repository<SuperUser>{
         )
     }
 
-    validateUserPassword(authCredentialsDto:AuthCredentialsDto):Promise<string>{
+    validateUserPassword(authCredentialsDto:AuthCredentialsDto):Promise<SuperUser>{
         const {username, password} = authCredentialsDto;
         return this.findOne({username}).then(
             (user) => {
@@ -50,7 +50,7 @@ export class SuperUserRepository extends Repository<SuperUser>{
                     return user.validatePassword(password).then(
                         (result) => {
                             if(result === true){
-                                return username;
+                                return user;
                             }
                             else
                                 return null;
