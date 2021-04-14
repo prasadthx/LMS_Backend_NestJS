@@ -6,7 +6,7 @@ import * as Bcrypt from 'bcrypt';
 
 @EntityRepository(SuperUser)
 export class SuperUserRepository extends Repository<SuperUser>{
-    signUp(authCredentialsDto: AuthCredentialsDto) : Promise<void>{
+    signUp(authCredentialsDto: AuthCredentialsDto) : Promise<SuperUser>{
         const {username, email, password} = authCredentialsDto;
         const user = new SuperUser();
 
@@ -25,7 +25,7 @@ export class SuperUserRepository extends Repository<SuperUser>{
                                     user.password = hashedPassword;
                                     user.save().then(
                                         (user) => {
-                                            console.log(user);
+                                            return user;
                                         }).catch((error) => {
                                         if (error.code === '23505') {
                                             throw new ConflictException("Username already exists");

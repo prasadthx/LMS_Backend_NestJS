@@ -12,6 +12,8 @@ import {TeacherRepository} from "../repositories/teacher.repository";
 import {ClassRepository} from "../repositories/class.repository";
 import {StudentRepository} from "../repositories/student.repository";
 import {SubjectRepository} from "../repositories/subject.repository";
+import {SuperuserRefreshTokenRepository} from "../repositories/superuser.refreshtoken.repository";
+import {TokenService} from "./token.service";
 
 
 @Module({
@@ -25,11 +27,12 @@ import {SubjectRepository} from "../repositories/subject.repository";
               }
           }
       ),
-      TypeOrmModule.forFeature([UserRepository, SuperUserRepository, TeacherRepository, StudentRepository, SubjectRepository,ClassRepository, ExamRepository]),
+      TypeOrmModule.forFeature([UserRepository, SuperUserRepository, TeacherRepository, StudentRepository, SubjectRepository,ClassRepository, ExamRepository, SuperuserRefreshTokenRepository]),
   ],
   controllers: [AuthController],
   providers: [
       AuthService,
+      TokenService,
       JwtStrategy
   ],
     exports:[
