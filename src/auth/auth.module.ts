@@ -7,6 +7,12 @@ import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import {JwtStrategy} from "./jwt.strategy";
 import {SuperUserRepository} from "../repositories/superuser.repository";
+import {ExamRepository} from "../repositories/exam.repository";
+import {TeacherRepository} from "../repositories/teacher.repository";
+import {ClassRepository} from "../repositories/class.repository";
+import {StudentRepository} from "../repositories/student.repository";
+import {SubjectRepository} from "../repositories/subject.repository";
+
 
 @Module({
   imports:[
@@ -19,7 +25,7 @@ import {SuperUserRepository} from "../repositories/superuser.repository";
               }
           }
       ),
-      TypeOrmModule.forFeature([UserRepository, SuperUserRepository]),
+      TypeOrmModule.forFeature([UserRepository, SuperUserRepository, TeacherRepository, StudentRepository, SubjectRepository,ClassRepository, ExamRepository]),
   ],
   controllers: [AuthController],
   providers: [

@@ -1,4 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique} from 'typeorm';
+import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique} from 'typeorm';
+import {Class} from "../class/class.entity";
 
 @Entity()
 @Unique(['username', 'rollNo'])
@@ -30,4 +31,7 @@ export class Student extends BaseEntity{
 
     @Column()
     dateOfBirth : string;
+
+    @ManyToOne(() => Class, className => className.students)
+    className: Class[];
 }

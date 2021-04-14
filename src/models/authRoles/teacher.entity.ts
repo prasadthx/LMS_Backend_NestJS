@@ -1,4 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique} from 'typeorm';
+import {Class} from "../class/class.entity";
 
 @Entity()
 @Unique(['username'])
@@ -24,5 +25,9 @@ export class Teacher extends BaseEntity{
 
     @Column()
     salt:string;
+
+    @OneToOne( () => Class, className => className.classTeacher)
+    @JoinColumn()
+    classTeacher:Class;
 
 }

@@ -1,5 +1,5 @@
 import {EntityRepository, Repository} from "typeorm";
-import {SuperUser} from "../models/superuser.entity";
+import {SuperUser} from "../models/authRoles/superuser.entity";
 import {AuthCredentialsDto} from "../models/authCredentialsDto";
 import {ConflictException, InternalServerErrorException} from "@nestjs/common";
 import * as Bcrypt from 'bcrypt';
